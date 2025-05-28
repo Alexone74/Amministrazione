@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amministrazione Taxi - Excel Template</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #f8f9fa;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-right: 1px solid #dee2e6;
+        }
+        
+        .tab:last-child {
+            border-right: none;
+        }
+        
+        .tab.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .tab:hover {
+            background: #e9ecef;
+        }
+        
+        .tab.active:hover {
+            background: #2980b9;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .excel-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .excel-table th,
+        .excel-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        .excel-table th {
+            background: #34495e;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+        
+        .excel-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .excel-table tr:hover {
+            background: #e3f2fd;
+            transition: background 0.2s ease;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .total-row {
+            background: #e8f5e8 !important;
+            font-weight: bold;
+        }
+        
+        .formula-cell {
+            background: #fff3cd;
+            font-style: italic;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .download-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 18px;
+            border: 2px dashed #ccc;
+        }
+        
+        .responsive-scroll {
+            overflow-x: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .excel-table {
+                font-size: 12px;
+            }
+            
+            .excel-table th,
+            .excel-table td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Amministrazione Taxi</h1>
+            <p>Gestione completa mensile con grafici e statistiche</p>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('daily')">📅 Registro Giornaliero</button>
+            <button class="tab" onclick="showTab('fixed')">💰 Spese Fisse</button>
+            <button class="tab" onclick="showTab('summary')">📈 Riepilogo Mensile</button>
+            <button class="tab" onclick="showTab('charts')">📊 Grafici</button>
+        </div>
+        
+        <!-- REGISTRO GIORNALIERO -->
+        <div id="daily" class="tab-content active">
+            <h2 class="section-title">Registro Giornaliero</h2>
+            
+            <div class="info-box">
+                <strong>💡 Istruzioni:</strong> Compila una riga per ogni giorno lavorato. I totali si calcoleranno automaticamente.
+            </div>
+            
+            <div class="responsive-scroll">
+                <table class="excel-table" id="dailyTable">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Turno</th>
+                            <th>N° Corse</th>
+                            <th>Contanti €</th>
+                            <th>Carta €</th>
+                            <th>App €</th>
+                            <th>Tot. Incassi €</th>
+                            <th>Benzina €</th>
+                            <th>Pasti €</th>
+                            <th>Pedaggi €</th>
+                            <th>Tot. Spese €</th>
+                            <th>Netto Giorn. €</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 31 righe per tutti i giorni del mese -->
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td><strong>TOTALI MESE</strong></td>
+                            <td>-</td>
+                            <td class="formula-cell" id="totalRides">0</td>
+                            <td class="formula-cell" id="totalCash">€0.00</td>
+                            <td class="formula-cell" id="totalCard">€0.00</td>
+                            <td class="formula-cell" id="totalApp">€0.00</td>
+                            <td class="formula-cell" id="totalIncome">€0.00</td>
+                            <td class="formula-cell" id="totalGas">€0.00</td>
+                            <td class="formula-cell" id="totalMeals">€0.00</td>
+                            <td class="formula-cell" id="totalTolls">€0.00</td>
+                            <td class="formula-cell" id="totalExpenses">€0.00</td>
+                            <td class="formula-cell" id="totalNet">€0.00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        
+        <!-- SPESE FISSE -->
+        <div id="fixed" class="tab-content">
+            <h2 class="section-title">Spese Fisse Mensili</h2>
+            
+            <div class="info-box">
+                <strong>💡 Info:</strong> Inserisci le tue spese fisse mensili. Questi importi saranno utilizzati nel calcolo del riepilogo.
+            </div>
+            
+            <table class="excel-table">
+                <thead>
+                    <tr>
+                        <th>Tipo Spesa</th>
+                        <th>Importo Mensile €</th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Rata Mutuo</strong></td>
+                        <td><input type="number" class="input-field fixed-expense" data-type="mortgage" step="0.01" placeholder="0.00"></td>
+                        <td><input type="text" class="input-field" placeholder="Note opzionali"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Affitto Radio Taxi</strong></td>
+                        <td><input type="number" class="input-field fixed-expense" data-type="radio" step="0.01" placeholder="0.00"></td>
+                        <td><input type="text" class="input-field" placeholder="Note opzionali"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Assicurazione</strong></td>
+                        <td><input type="number" class="input-field fixed-expense" data-type="insurance" step="0.01" placeholder="0.00"></td>
+                        <td><input type="text" class="input-field" placeholder="Note opzionali"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>INPS</strong></td>
+                        <td><input type="number" class="input-field fixed-expense" data-type="inps" step="0.01" placeholder="0.00"></td>
+                        <td><input type="text" class="input-field" placeholder="Note opzionali"></td>
+                    </tr>
+                    <tr class="total-row">
+                        <td><strong>TOTALE SPESE FISSE</strong></td>
+                        <td class="formula-cell" id="totalFixed">€0.00</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- RIEPILOGO MENSILE -->
+        <div id="summary" class="tab-content">
+            <h2 class="section-title">Riepilogo Mensile</h2>
+            
+            <div class="info-box">
+                <strong>📊 Riepilogo:</strong> Tutti i calcoli sono automatici basati sui dati inseriti negli altri fogli.
+            </div>
+            
+            <table class="excel-table">
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Importo €</th>
+                        <th>% sul Totale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>INCASSI TOTALI</strong></td>
+                        <td class="formula-cell" id="summaryTotalIncome">€0.00</td>
+                        <td>100%</td>
+                    </tr>
+                    <tr>
+                        <td>└ Pagamenti in Contanti</td>
+                        <td class="formula-cell" id="summaryCash">€0.00</td>
+                        <td class="formula-cell" id="summaryCashPerc">0%</td>
+                    </tr>
+                    <tr>
+                        <td>└ Pagamenti con Carta</td>
+                        <td class="formula-cell" id="summaryCard">€0.00</td>
+                        <td class="formula-cell" id="summaryCardPerc">0%</td>
+                    </tr>
+                    <tr>
+                        <td>└ Pagamenti con App</td>
+                        <td class="formula-cell" id="summaryApp">€0.00</td>
+                        <td class="formula-cell" id="summaryAppPerc">0%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SPESE GIORNALIERE</strong></td>
+                        <td class="formula-cell" id="summaryDailyExpenses">€0.00</td>
+                        <td class="formula-cell" id="summaryDailyPerc">0%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SPESE FISSE</strong></td>
+                        <td class="formula-cell" id="summaryFixedExpenses">€0.00</td>
+                        <td class="formula-cell" id="summaryFixedPerc">0%</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td><strong>GUADAGNO NETTO MENSILE</strong></td>
+                        <td class="formula-cell" id="summaryNetProfit">€0.00</td>
+                        <td class="formula-cell" id="summaryNetPerc">0%</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 style="color: #2c3e50; margin-top: 40px;">Statistiche Aggiuntive</h3>
+            <table class="excel-table">
+                <tbody>
+                    <tr>
+                        <td><strong>Giorni Lavorati</strong></td>
+                        <td class="formula-cell" id="workingDays">0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Media Incassi Giornalieri</strong></td>
+                        <td class="formula-cell" id="avgDaily">€0.00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Totale Corse del Mese</strong></td>
+                        <td class="formula-cell" id="totalMonthlyRides">0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Media Corse per Giorno</strong></td>
+                        <td class="formula-cell" id="avgRides">0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ricavo Medio per Corsa</strong></td>
+                        <td class="formula-cell" id="avgPerRide">€0.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- GRAFICI -->
+        <div id="charts" class="tab-content">
+            <h2 class="section-title">Grafici e Analisi</h2>
+            
+            <div class="chart-container">
+                <h3>Andamento Incassi Giornalieri</h3>
+                <canvas id="dailyIncomeChart" width="400" height="200"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <h3>Ripartizione Tipologie di Pagamento</h3>
+                <canvas id="paymentTypeChart" width="400" height="200"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <h3>Confronto Entrate vs Uscite</h3>
+                <canvas id="incomeExpenseChart" width="400" height="200"></canvas>
+            </div>
+            
+            <div class="info-box">
+                <strong>💡 Esportazione Excel:</strong> Puoi copiare i dati dalle tabelle e incollarli in Excel per creare i grafici definitivi.
+            </div>
+        </div>
+        
+        <div style="text-align: center; padding: 30px;">
+            <button class="download-btn" onclick="exportToCSV()">📥 Esporta Dati CSV</button>
+            <button class="download-btn" onclick="printReport()">🖨️ Stampa Report</button>
+        </div>
+    </div>
+
+    <script>
+        // Inizializzazione
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDailyTable();
+            attachEventListeners();
+            loadSampleData();
+        });
+
+        // Gestione Tab
+        function showTab(tabName) {
+            // Nasconde tutti i contenuti
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Rimuove active da tutti i tab
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Mostra il contenuto selezionato
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Inizializza tabella giornaliera
+        function initializeDailyTable() {
+            const tbody = document.querySelector('#dailyTable tbody');
+            tbody.innerHTML = '';
+            
+            for (let i = 1; i <= 31; i++) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="date" class="input-field daily-input" data-col="date"></td>
+                    <td>
+                        <select class="input-field daily-input" data-col="shift">
+                            <option value="">-</option>
+                            <option value="Mattino">Mattino</option>
+                            <option value="Pomeriggio">Pomeriggio</option>
+                            <option value="Notte">Notte</option>
+                            <option value="Doppio">Doppio</option>
+                        </select>
+                    </td>
+                    <td><input type="number" class="input-field daily-input" data-col="rides" min="0" step="1" placeholder="0"></td>
+                    <td><input type="number" class="input-field daily-input" data-col="cash" min="0" step="0.01" placeholder="0.00"></td>
+                    <td><input type="number" class="input-field daily-input" data-col="card" min="0" step="0.01" placeholder="0.00"></td>
+                    <td><input type="number" class="input-field daily-input" data-col="app" min="0" step="0.01" placeholder="0.00"></td>
+                    <td class="formula-cell daily-total-income">€0.00</td>
+                    <td><input type="number" class="input-field daily-input" data-col="gas" min="0" step="0.01" placeholder="0.00"></td>
+                    <td><input type="number" class="input-field daily-input" data-col="meals" min="0" step="0.01" placeholder="0.00"></td>
+                    <td><input type="number" class="input-field daily-input" data-col="tolls" min="0" step="0.01" placeholder="0.00"></td>
+                    <td class="formula-cell daily-total-expenses">€0.00</td>
+                    <td class="formula-cell daily-net">€0.00</td>
+                `;
+                tbody.appendChild(row);
+            }
+        }
+
+        // Attach event listeners
+        function attachEventListeners() {
+            // Daily inputs
+            document.addEventListener('input', function(e) {
+                if (e.target.classList.contains('daily-input')) {
+                    updateDailyRowCalculations(e.target.closest('tr'));
+                    updateMonthlySummary();
+                }
+                
+                if (e.target.classList.contains('fixed-expense')) {
+                    updateFixedExpenses();
+                    updateMonthlySummary();
+                }
+            });
+        }
+
+        // Aggiorna calcoli riga giornaliera
+        function updateDailyRowCalculations(row) {
+            const inputs = row.querySelectorAll('.daily-input');
+            let cash = 0, card = 0, app = 0, gas = 0, meals = 0, tolls = 0;
+            
+            inputs.forEach(input => {
+                const value = parseFloat(input.value) || 0;
+                switch(input.dataset.col) {
+                    case 'cash': cash = value; break;
+                    case 'card': card = value; break;
+                    case 'app': app = value; break;
+                    case 'gas': gas = value; break;
+                    case 'meals': meals = value; break;
+                    case 'tolls': tolls = value; break;
+                }
+            });
+            
+            const totalIncome = cash + card + app;
+            const totalExpenses = gas + meals + tolls;
+            const net = totalIncome - totalExpenses;
+            
+            row.querySelector('.daily-total-income').textContent = `€${totalIncome.toFixed(2)}`;
+            row.querySelector('.daily-total-expenses').textContent = `€${totalExpenses.toFixed(2)}`;
+            row.querySelector('.daily-net').textContent = `€${net.toFixed(2)}`;
+        }
+
+        // Aggiorna spese fisse
+        function updateFixedExpenses() {
+            const fixedInputs = document.querySelectorAll('.fixed-expense');
+            let total = 0;
+            
+            fixedInputs.forEach(input => {
+                total += parseFloat(input.value) || 0;
+            });
+            
+            document.getElementById('totalFixed').textContent = `€${total.toFixed(2)}`;
+        }
+
+        // Aggiorna riepilogo mensile
+        function updateMonthlySummary() {
+            const dailyInputs = document.querySelectorAll('.daily-input');
+            let totalRides = 0, totalCash = 0, totalCard = 0, totalApp = 0;
+            let totalGas = 0, totalMeals = 0, totalTolls = 0;
+            let workingDays = 0;
+            
+            // Raccogliere dati dalle righe
+            const rows = document.querySelectorAll('#dailyTable tbody tr');
+            rows.forEach(row => {
+                const inputs = row.querySelectorAll('.daily-input');
+                let hasData = false;
+                let rowData = {};
+                
+                inputs.forEach(input => {
+                    const value = parseFloat(input.value) || 0;
+                    if (value > 0) hasData = true;
+                    rowData[input.dataset.col] = value;
+                });
+                
+                if (hasData) {
+                    workingDays++;
+                    totalRides += rowData.rides || 0;
+                    totalCash += rowData.cash || 0;
+                    totalCard += rowData.card || 0;
+                    totalApp += rowData.app || 0;
+                    totalGas += rowData.gas || 0;
+                    totalMeals += rowData.meals || 0;
+                    totalTolls += rowData.tolls || 0;
+                }
+            });
+            
+            const totalIncome = totalCash + totalCard + totalApp;
+            const totalDailyExpenses = totalGas + totalMeals + totalTolls;
+            const fixedExpenses = parseFloat(document.getElementById('totalFixed').textContent.replace('€', '')) || 0;
+            const netProfit = totalIncome - totalDailyExpenses - fixedExpenses;
+            
+            // Aggiorna totali tabella giornaliera
+            document.getElementById('totalRides').textContent = totalRides;
+            document.getElementById('totalCash').textContent = `€${totalCash.toFixed(2)}`;
+            document.getElementById('totalCard').textContent = `€${totalCard.toFixed(2)}`;
+            document.getElementById('totalApp').textContent = `€${totalApp.toFixed(2)}`;
+            document.getElementById('totalIncome').textContent = `€${totalIncome.toFixed(2)}`;
+            document.getElementById('totalGas').textContent = `€${totalGas.toFixed(2)}`;
+            document.getElementById('totalMeals').textContent = `€${totalMeals.toFixed(2)}`;
+            document.getElementById('totalTolls').textContent = `€${totalTolls.toFixed(2)}`;
+            document.getElementById('totalExpenses').textContent = `€${totalDailyExpenses.toFixed(2)}`;
+            document.getElementById('totalNet').textContent = `€${(totalIncome - totalDailyExpenses).toFixed(2)}`;
+            
+            // Aggiorna riepilogo
+            document.getElementById('summaryTotalIncome').textContent = `€${totalIncome.toFixed(2)}`;
+            document.getElementById('summaryCash').textContent = `€${totalCash.toFixed(2)}`;
+            document.getElementById('summaryCard').textContent = `€${totalCard.toFixed(2)}`;
+            document.getElementById('summaryApp').textContent = `€${totalApp.toFixed(2)}`;
+            document.getElementById('summaryDailyExpenses').textContent = `€${totalDailyExpenses.toFixed(2)}`;
+            document.getElementById('summaryFixedExpenses').textContent = `€${fixedExpenses.toFixed(2)}`;
+            document.getElementById('summaryNetProfit').textContent = `€${netProfit.toFixed(2)}`;
+            
+            // Calcola percentuali
+            if (totalIncome > 0) {
+                document.getElementById('summaryCashPerc').textContent = `${((totalCash/totalIncome)*100).toFixed(1)}%`;
+                document.getElementById('summaryCardPerc').textContent = `${((totalCard/totalIncome)*100).toFixed(1)}%`;
+                document.getElementById('summaryAppPerc').textContent = `${((totalApp/totalIncome)*100).toFixed(1)}%`;
+                document.getElementById('summaryDailyPerc').textContent = `${((totalDailyExpenses/totalIncome)*100).toFixed(1)}%`;
+                document.getElementById('summaryFixedPerc').textContent = `${((fixedExpenses/totalIncome)*100).toFixed(1)}%`;
+                document.getElementById('summaryNetPerc').textContent = `${((netProfit/totalIncome)*100).toFixed(1)}%`;
+            }
+            
+            // Statistiche
+            document.getElementById('workingDays').textContent = workingDays;
+            document.getElementById('avgDaily').textContent = workingDays > 0 ? `€${(totalIncome/workingDays).toFixed(2)}` : '€0.00';
+            document.getElementById('totalMonthlyRides').textContent = totalRides;
+            document.getElementById('avgRides').textContent = workingDays > 0 ? Math.round(totalRides/workingDays) : 0;
+            document.getElementById('avgPerRide').textContent = totalRides > 0 ? `€${(totalIncome/totalRides).toFixed(2)}` : '€0.00';
+            
+            updateCharts();
+        }
+
+        // Carica dati di esempio
+        function loadSampleData() {
+            // Spese fisse di esempio
+            document.querySelector('[data-type="mortgage"]').value = '800';
+            document.querySelector('[data-type="radio"]').value = '150';
+            document.querySelector('[data-type="insurance"]').value = '120';
+            document.querySelector('[data-type="inps"]').value = '200';
+            
+            updateFixedExpenses();
+            
+            // Alcuni giorni di esempio
+            const rows = document.querySelectorAll('#dailyTable tbody tr');
+            const sampleData = [
+                { rides: 12, cash: 80, card: 45, app: 25, gas: 35, meals: 15, tolls: 5 },
+                { rides: 15, cash: 95, card: 60, app: 30, gas: 40, meals: 18, tolls: 8 },
+                { rides: 10, cash: 65, card: 35, app: 20, gas: 30, meals: 12, tolls: 0 }
+            ];
+            
+            sampleData.forEach((data, index) => {
+                if (rows[index]) {
+                    const inputs = rows[index].querySelectorAll('.daily-input');
+                    inputs.forEach(input => {
+                        if (data[input.dataset.col]) {
+                            input.value = data[input.dataset.col];
+                        }
+                    });
+                    updateDailyRowCalculations(rows[index]);
+                }
+            });
+            
+            updateMonthlySummary();
+        }
+
+        // Aggiorna grafici (simulazione)
+        function updateCharts() {
+            const charts = document.querySelectorAll('canvas');
+            charts.forEach(canvas => {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Sfondo
+                ctx.fillStyle = '#f8f9fa';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Testo placeholder
+                ctx.fillStyle = '#6c757d';
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('Grafico verrà generato automaticamente', canvas.width/2, canvas.height/2);
+                ctx.fillText('con i dati inseriti', canvas.width/2, canvas.height/2 + 25);
+            });
+        }
+
+        // Esporta in CSV
+        function exportToCSV() {
+            let csv = 'Data,Turno,Corse,Contanti,Carta,App,Tot Incassi,Benzina,Pasti,Pedaggi,Tot Spese,Netto\n';
+            
+            const rows = document.querySelectorAll('#dailyTable tbody tr');
+            rows.forEach(row => {
+                const inputs = row.querySelectorAll('input, select');
+                const values = [];
+                inputs.forEach(input => {
+                    values.push(input.value || '0');
+                });
+                
+                // Aggiungi i valori calcolati
+                const totalIncome = row.querySelector('.daily-total-income').textContent.replace('€', '');
+                const totalExpenses = row.querySelector('.daily-total-expenses').textContent.replace('€', '');
+                const net = row.querySelector('.daily-net').textContent.replace('€', '');
+                
+                values.push(totalIncome, totalExpenses, net);
+                csv += values.join(',') + '\n';
+            });
+            
+            // Download
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'amministrazione_taxi.csv');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Stampa report
+        function printReport() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
