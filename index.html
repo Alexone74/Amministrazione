@@ -3,717 +3,934 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amministrazione Taxi - Excel Template</title>
+    <title>Amministrazione Taxi</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #fff 0%, #fff9c4 100%);
             min-height: 100vh;
         }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .login-box {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(255, 193, 7, 0.2);
+            border: 2px solid #ffc107;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .taxi-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        
+        .login-title {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .login-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #ffc107;
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(45deg, #ffc107, #ffeb3b);
+            color: #333;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 193, 7, 0.3);
+        }
+        
+        .error-msg {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        
+        .app-container {
+            display: none;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
         }
         
         .header {
-            background: linear-gradient(45deg, #2c3e50, #3498db);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            font-weight: 300;
-        }
-        
-        .tabs {
-            display: flex;
-            background: #f8f9fa;
-            border-bottom: 2px solid #e9ecef;
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 15px 20px;
-            text-align: center;
-            cursor: pointer;
-            background: #f8f9fa;
-            border: none;
-            font-size: 16px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border-right: 1px solid #dee2e6;
-        }
-        
-        .tab:last-child {
-            border-right: none;
-        }
-        
-        .tab.active {
-            background: #3498db;
-            color: white;
-        }
-        
-        .tab:hover {
-            background: #e9ecef;
-        }
-        
-        .tab.active:hover {
-            background: #2980b9;
-        }
-        
-        .tab-content {
-            display: none;
-            padding: 30px;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .excel-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 14px;
             background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
         }
         
-        .excel-table th,
-        .excel-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border: 1px solid #ddd;
+        .header-left h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 5px;
         }
         
-        .excel-table th {
-            background: #34495e;
-            color: white;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 0.5px;
-        }
-        
-        .excel-table tr:nth-child(even) {
-            background: #f8f9fa;
-        }
-        
-        .excel-table tr:hover {
-            background: #e3f2fd;
-            transition: background 0.2s ease;
-        }
-        
-        .input-field {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        .header-left p {
+            color: #666;
             font-size: 14px;
         }
         
-        .total-row {
-            background: #e8f5e8 !important;
-            font-weight: bold;
+        .header-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
         
-        .formula-cell {
-            background: #fff3cd;
-            font-style: italic;
+        .logout-btn {
+            padding: 10px 20px;
+            background: #ffc107;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
+            text-align: center;
+        }
+        
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 20px;
+        }
+        
+        .main-content {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .data-entry, .monthly-expenses {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
         }
         
         .section-title {
-            color: #2c3e50;
-            font-size: 1.8em;
-            margin: 30px 0 20px 0;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #3498db;
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        .info-box {
-            background: #e3f2fd;
-            border-left: 4px solid #2196F3;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
         }
         
-        .download-btn {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
-            color: white;
-            padding: 15px 30px;
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .input-group label {
+            color: #333;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        
+        .input-group input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #ffc107;
+        }
+        
+        .save-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ffc107;
+            color: #333;
             border: none;
-            border-radius: 25px;
-            font-size: 16px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            margin: 20px 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-        }
-        
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+            margin-top: 15px;
         }
         
         .chart-container {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .chart-placeholder {
             height: 300px;
-            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 18px;
-            border: 2px dashed #ccc;
+            margin: 20px 0;
         }
         
-        .responsive-scroll {
-            overflow-x: auto;
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .data-table th {
+            background: #ffc107;
+            color: #333;
+            font-weight: 600;
         }
         
         @media (max-width: 768px) {
-            .tabs {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
                 flex-direction: column;
+                text-align: center;
+                gap: 15px;
             }
             
-            .excel-table {
-                font-size: 12px;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .excel-table th,
-            .excel-table td {
-                padding: 8px 10px;
+            .input-grid {
+                grid-template-columns: 1fr;
             }
+        }
+        
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .expense-item:last-child {
+            border-bottom: none;
+        }
+        
+        .expense-label {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .expense-value {
+            color: #666;
+            font-weight: 600;
+        }
+        
+        .success-msg {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📊 Amministrazione Taxi</h1>
-            <p>Gestione completa mensile con grafici e statistiche</p>
-        </div>
-        
-        <div class="tabs">
-            <button class="tab active" onclick="showTab('daily')">📅 Registro Giornaliero</button>
-            <button class="tab" onclick="showTab('fixed')">💰 Spese Fisse</button>
-            <button class="tab" onclick="showTab('summary')">📈 Riepilogo Mensile</button>
-            <button class="tab" onclick="showTab('charts')">📊 Grafici</button>
-        </div>
-        
-        <!-- REGISTRO GIORNALIERO -->
-        <div id="daily" class="tab-content active">
-            <h2 class="section-title">Registro Giornaliero</h2>
-            
-            <div class="info-box">
-                <strong>💡 Istruzioni:</strong> Compila una riga per ogni giorno lavorato. I totali si calcoleranno automaticamente.
+    <!-- Login Form -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="taxi-icon">🚕</div>
+                <h2 class="login-title">Amministrazione Taxi</h2>
+                <p class="login-subtitle">Accesso riservato</p>
             </div>
-            
-            <div class="responsive-scroll">
-                <table class="excel-table" id="dailyTable">
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Turno</th>
-                            <th>N° Corse</th>
-                            <th>Contanti €</th>
-                            <th>Carta €</th>
-                            <th>App €</th>
-                            <th>Tot. Incassi €</th>
-                            <th>Benzina €</th>
-                            <th>Pasti €</th>
-                            <th>Pedaggi €</th>
-                            <th>Tot. Spese €</th>
-                            <th>Netto Giorn. €</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- 31 righe per tutti i giorni del mese -->
-                    </tbody>
-                    <tfoot>
-                        <tr class="total-row">
-                            <td><strong>TOTALI MESE</strong></td>
-                            <td>-</td>
-                            <td class="formula-cell" id="totalRides">0</td>
-                            <td class="formula-cell" id="totalCash">€0.00</td>
-                            <td class="formula-cell" id="totalCard">€0.00</td>
-                            <td class="formula-cell" id="totalApp">€0.00</td>
-                            <td class="formula-cell" id="totalIncome">€0.00</td>
-                            <td class="formula-cell" id="totalGas">€0.00</td>
-                            <td class="formula-cell" id="totalMeals">€0.00</td>
-                            <td class="formula-cell" id="totalTolls">€0.00</td>
-                            <td class="formula-cell" id="totalExpenses">€0.00</td>
-                            <td class="formula-cell" id="totalNet">€0.00</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-        
-        <!-- SPESE FISSE -->
-        <div id="fixed" class="tab-content">
-            <h2 class="section-title">Spese Fisse Mensili</h2>
-            
-            <div class="info-box">
-                <strong>💡 Info:</strong> Inserisci le tue spese fisse mensili. Questi importi saranno utilizzati nel calcolo del riepilogo.
-            </div>
-            
-            <table class="excel-table">
-                <thead>
-                    <tr>
-                        <th>Tipo Spesa</th>
-                        <th>Importo Mensile €</th>
-                        <th>Note</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Rata Mutuo</strong></td>
-                        <td><input type="number" class="input-field fixed-expense" data-type="mortgage" step="0.01" placeholder="0.00"></td>
-                        <td><input type="text" class="input-field" placeholder="Note opzionali"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Affitto Radio Taxi</strong></td>
-                        <td><input type="number" class="input-field fixed-expense" data-type="radio" step="0.01" placeholder="0.00"></td>
-                        <td><input type="text" class="input-field" placeholder="Note opzionali"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Assicurazione</strong></td>
-                        <td><input type="number" class="input-field fixed-expense" data-type="insurance" step="0.01" placeholder="0.00"></td>
-                        <td><input type="text" class="input-field" placeholder="Note opzionali"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>INPS</strong></td>
-                        <td><input type="number" class="input-field fixed-expense" data-type="inps" step="0.01" placeholder="0.00"></td>
-                        <td><input type="text" class="input-field" placeholder="Note opzionali"></td>
-                    </tr>
-                    <tr class="total-row">
-                        <td><strong>TOTALE SPESE FISSE</strong></td>
-                        <td class="formula-cell" id="totalFixed">€0.00</td>
-                        <td>-</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <!-- RIEPILOGO MENSILE -->
-        <div id="summary" class="tab-content">
-            <h2 class="section-title">Riepilogo Mensile</h2>
-            
-            <div class="info-box">
-                <strong>📊 Riepilogo:</strong> Tutti i calcoli sono automatici basati sui dati inseriti negli altri fogli.
-            </div>
-            
-            <table class="excel-table">
-                <thead>
-                    <tr>
-                        <th>Categoria</th>
-                        <th>Importo €</th>
-                        <th>% sul Totale</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>INCASSI TOTALI</strong></td>
-                        <td class="formula-cell" id="summaryTotalIncome">€0.00</td>
-                        <td>100%</td>
-                    </tr>
-                    <tr>
-                        <td>└ Pagamenti in Contanti</td>
-                        <td class="formula-cell" id="summaryCash">€0.00</td>
-                        <td class="formula-cell" id="summaryCashPerc">0%</td>
-                    </tr>
-                    <tr>
-                        <td>└ Pagamenti con Carta</td>
-                        <td class="formula-cell" id="summaryCard">€0.00</td>
-                        <td class="formula-cell" id="summaryCardPerc">0%</td>
-                    </tr>
-                    <tr>
-                        <td>└ Pagamenti con App</td>
-                        <td class="formula-cell" id="summaryApp">€0.00</td>
-                        <td class="formula-cell" id="summaryAppPerc">0%</td>
-                    </tr>
-                    <tr>
-                        <td><strong>SPESE GIORNALIERE</strong></td>
-                        <td class="formula-cell" id="summaryDailyExpenses">€0.00</td>
-                        <td class="formula-cell" id="summaryDailyPerc">0%</td>
-                    </tr>
-                    <tr>
-                        <td><strong>SPESE FISSE</strong></td>
-                        <td class="formula-cell" id="summaryFixedExpenses">€0.00</td>
-                        <td class="formula-cell" id="summaryFixedPerc">0%</td>
-                    </tr>
-                    <tr class="total-row">
-                        <td><strong>GUADAGNO NETTO MENSILE</strong></td>
-                        <td class="formula-cell" id="summaryNetProfit">€0.00</td>
-                        <td class="formula-cell" id="summaryNetPerc">0%</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <h3 style="color: #2c3e50; margin-top: 40px;">Statistiche Aggiuntive</h3>
-            <table class="excel-table">
-                <tbody>
-                    <tr>
-                        <td><strong>Giorni Lavorati</strong></td>
-                        <td class="formula-cell" id="workingDays">0</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Media Incassi Giornalieri</strong></td>
-                        <td class="formula-cell" id="avgDaily">€0.00</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Totale Corse del Mese</strong></td>
-                        <td class="formula-cell" id="totalMonthlyRides">0</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Media Corse per Giorno</strong></td>
-                        <td class="formula-cell" id="avgRides">0</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Ricavo Medio per Corsa</strong></td>
-                        <td class="formula-cell" id="avgPerRide">€0.00</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <!-- GRAFICI -->
-        <div id="charts" class="tab-content">
-            <h2 class="section-title">Grafici e Analisi</h2>
-            
-            <div class="chart-container">
-                <h3>Andamento Incassi Giornalieri</h3>
-                <canvas id="dailyIncomeChart" width="400" height="200"></canvas>
-            </div>
-            
-            <div class="chart-container">
-                <h3>Ripartizione Tipologie di Pagamento</h3>
-                <canvas id="paymentTypeChart" width="400" height="200"></canvas>
-            </div>
-            
-            <div class="chart-container">
-                <h3>Confronto Entrate vs Uscite</h3>
-                <canvas id="incomeExpenseChart" width="400" height="200"></canvas>
-            </div>
-            
-            <div class="info-box">
-                <strong>💡 Esportazione Excel:</strong> Puoi copiare i dati dalle tabelle e incollarli in Excel per creare i grafici definitivi.
-            </div>
-        </div>
-        
-        <div style="text-align: center; padding: 30px;">
-            <button class="download-btn" onclick="exportToCSV()">📥 Esporta Dati CSV</button>
-            <button class="download-btn" onclick="printReport()">🖨️ Stampa Report</button>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="password" required>
+                </div>
+                <button type="submit" class="login-btn">Accedi</button>
+                <div class="error-msg" id="errorMsg"></div>
+            </form>
         </div>
     </div>
 
+    <!-- Main App -->
+    <div class="app-container" id="appContainer">
+        <header class="header">
+            <div class="header-left">
+                <h1>🚕 Dashboard Taxi</h1>
+                <p>Amministrazione e monitoraggio incassi</p>
+            </div>
+            <div class="header-right">
+                <select id="monthSelect" onchange="filterByMonth()">
+                    <option value="">Tutti i mesi</option>
+                    <option value="2025-01">Gennaio 2025</option>
+                    <option value="2025-02">Febbraio 2025</option>
+                    <option value="2025-03">Marzo 2025</option>
+                    <option value="2025-04">Aprile 2025</option>
+                    <option value="2025-05">Maggio 2025</option>
+                    <option value="2025-06">Giugno 2025</option>
+                    <option value="2025-07">Luglio 2025</option>
+                    <option value="2025-08">Agosto 2025</option>
+                    <option value="2025-09">Settembre 2025</option>
+                    <option value="2025-10">Ottobre 2025</option>
+                    <option value="2025-11">Novembre 2025</option>
+                    <option value="2025-12">Dicembre 2025</option>
+                </select>
+                <button class="logout-btn" onclick="exportToExcel()" style="background: #28a745; margin-right: 10px;">📊 Esporta Excel</button>
+                <span id="currentDate"></span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value" id="totalIncassi">€0</div>
+                <div class="stat-label">Incassi Totali</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💵</div>
+                <div class="stat-value" id="totalContanti">€0</div>
+                <div class="stat-label">Solo Contanti</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🚗</div>
+                <div class="stat-value" id="totalCorse">0</div>
+                <div class="stat-label">Corse Totali</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⛽</div>
+                <div class="stat-value" id="totalSpese">€0</div>
+                <div class="stat-label">Spese Totali</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-value" id="guadagnoNetto">€0</div>
+                <div class="stat-label">Guadagno Netto</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-grid">
+            <div class="main-content">
+                <h3 class="section-title">📊 Andamento Mensile</h3>
+                <div class="chart-container" id="chartContainer">
+                    <canvas id="incassiChart" width="400" height="200"></canvas>
+                </div>
+                
+                <h3 class="section-title">📋 Registro Giornaliero</h3>
+                <table class="data-table" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Giorno</th>
+                            <th>Corse</th>
+                            <th>Contanti</th>
+                            <th>Carta</th>
+                            <th>App</th>
+                            <th>Varie</th>
+                            <th>Totale</th>
+                            <th>Spese</th>
+                            <th>Netto</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="sidebar">
+                <!-- Data Entry Form -->
+                <div class="data-entry">
+                    <h3 class="section-title">✏️ Inserimento Dati</h3>
+                    <form id="dataForm">
+                        <div class="input-group">
+                            <label>Data</label>
+                            <input type="date" id="inputDate" required>
+                        </div>
+                        
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label>Corse</label>
+                                <input type="number" id="inputCorse" min="0">
+                            </div>
+                            <div class="input-group">
+                                <label>Contanti €</label>
+                                <input type="number" id="inputContanti" min="0" step="0.01">
+                            </div>
+                            <div class="input-group">
+                                <label>Carta €</label>
+                                <input type="number" id="inputCarta" min="0" step="0.01">
+                            </div>
+                            <div class="input-group">
+                                <label>App €</label>
+                                <input type="number" id="inputApp" min="0" step="0.01">
+                            </div>
+                            <div class="input-group">
+                                <label>Benzina €</label>
+                                <input type="number" id="inputBenzina" min="0" step="0.01">
+                            </div>
+                            <div class="input-group">
+                                <label>Pasti €</label>
+                                <input type="number" id="inputPasti" min="0" step="0.01">
+                            </div>
+                            <div class="input-group">
+                                <label>Pedaggi €</label>
+                                <input type="number" id="inputPedaggi" min="0" step="0.01">
+                            </div>
+                            <div class="input-group">
+                                <label>Varie €</label>
+                                <input type="number" id="inputVarie" min="0" step="0.01">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="save-btn">💾 Salva Dati</button>
+                        <div id="saveMsg"></div>
+                    </form>
+                </div>
+
+                <!-- Monthly Expenses -->
+                <div class="monthly-expenses">
+                    <h3 class="section-title">💳 Spese Mensili Fisse</h3>
+                    <div class="expense-item">
+                        <span class="expense-label">Rata mutuo</span>
+                        <span class="expense-value">€500</span>
+                    </div>
+                    <div class="expense-item">
+                        <span class="expense-label">Affitto radio taxi</span>
+                        <span class="expense-value">€350</span>
+                    </div>
+                    <div class="expense-item">
+                        <span class="expense-label">Assicurazione</span>
+                        <span class="expense-value">€100</span>
+                    </div>
+                    <div class="expense-item">
+                        <span class="expense-label">INPS</span>
+                        <span class="expense-value">€250</span>
+                    </div>
+                    <hr style="margin: 15px 0;">
+                    <div class="expense-item">
+                        <span class="expense-label"><strong>Totale Fisso</strong></span>
+                        <span class="expense-value"><strong>€1.200</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
-        // Inizializzazione
+        // Login System
+        const CREDENTIALS = {
+            username: 'admin',
+            password: 'taxi2025'
+        };
+
+        // Data Storage
+        let dailyData = {};
+        let monthlyExpenses = {
+            'Rata mutuo': 500,
+            'Affitto radio taxi': 350,
+            'Assicurazione': 100,
+            'INPS': 250
+        };
+        let currentFilter = ''; // For month filtering
+
+        // Backend Configuration
+        const BACKEND_URL = 'https://api.jsonbin.io/v3/b/YOUR_BIN_ID'; // Replace with your JSONBin ID
+        const API_KEY = 'YOUR_API_KEY'; // Replace with your JSONBin API key
+
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            initializeDailyTable();
-            attachEventListeners();
-            loadSampleData();
+            loadData();
+            updateCurrentDate();
+            setDefaultDate();
         });
 
-        // Gestione Tab
-        function showTab(tabName) {
-            // Nasconde tutti i contenuti
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.remove('active'));
+        // Login Functions
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
             
-            // Rimuove active da tutti i tab
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            // Mostra il contenuto selezionato
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
+            if (username === CREDENTIALS.username && password === CREDENTIALS.password) {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'block';
+                updateDashboard();
+            } else {
+                document.getElementById('errorMsg').textContent = 'Credenziali non valide';
+            }
+        });
+
+        function logout() {
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('errorMsg').textContent = '';
         }
 
-        // Inizializza tabella giornaliera
-        function initializeDailyTable() {
-            const tbody = document.querySelector('#dailyTable tbody');
-            tbody.innerHTML = '';
-            
-            for (let i = 1; i <= 31; i++) {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><input type="date" class="input-field daily-input" data-col="date"></td>
-                    <td>
-                        <select class="input-field daily-input" data-col="shift">
-                            <option value="">-</option>
-                            <option value="Mattino">Mattino</option>
-                            <option value="Pomeriggio">Pomeriggio</option>
-                            <option value="Notte">Notte</option>
-                            <option value="Doppio">Doppio</option>
-                        </select>
-                    </td>
-                    <td><input type="number" class="input-field daily-input" data-col="rides" min="0" step="1" placeholder="0"></td>
-                    <td><input type="number" class="input-field daily-input" data-col="cash" min="0" step="0.01" placeholder="0.00"></td>
-                    <td><input type="number" class="input-field daily-input" data-col="card" min="0" step="0.01" placeholder="0.00"></td>
-                    <td><input type="number" class="input-field daily-input" data-col="app" min="0" step="0.01" placeholder="0.00"></td>
-                    <td class="formula-cell daily-total-income">€0.00</td>
-                    <td><input type="number" class="input-field daily-input" data-col="gas" min="0" step="0.01" placeholder="0.00"></td>
-                    <td><input type="number" class="input-field daily-input" data-col="meals" min="0" step="0.01" placeholder="0.00"></td>
-                    <td><input type="number" class="input-field daily-input" data-col="tolls" min="0" step="0.01" placeholder="0.00"></td>
-                    <td class="formula-cell daily-total-expenses">€0.00</td>
-                    <td class="formula-cell daily-net">€0.00</td>
-                `;
-                tbody.appendChild(row);
+        // Data Functions
+        async function saveData() {
+            try {
+                // Save to JSONBin (cloud backend)
+                if (BACKEND_URL !== 'https://api.jsonbin.io/v3/b/YOUR_BIN_ID') {
+                    const response = await fetch(BACKEND_URL, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Master-Key': API_KEY
+                        },
+                        body: JSON.stringify({
+                            dailyData: dailyData,
+                            monthlyExpenses: monthlyExpenses,
+                            lastUpdate: new Date().toISOString()
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        console.log('Data saved to cloud backend');
+                    }
+                }
+                
+                // Also save locally as backup
+                localStorage.setItem('taxiDailyData', JSON.stringify(dailyData));
+                localStorage.setItem('taxiMonthlyExpenses', JSON.stringify(monthlyExpenses));
+            } catch (error) {
+                console.error('Error saving to backend:', error);
+                // Fallback to localStorage
+                localStorage.setItem('taxiDailyData', JSON.stringify(dailyData));
+                localStorage.setItem('taxiMonthlyExpenses', JSON.stringify(monthlyExpenses));
             }
         }
 
-        // Attach event listeners
-        function attachEventListeners() {
-            // Daily inputs
-            document.addEventListener('input', function(e) {
-                if (e.target.classList.contains('daily-input')) {
-                    updateDailyRowCalculations(e.target.closest('tr'));
-                    updateMonthlySummary();
-                }
-                
-                if (e.target.classList.contains('fixed-expense')) {
-                    updateFixedExpenses();
-                    updateMonthlySummary();
-                }
-            });
-        }
-
-        // Aggiorna calcoli riga giornaliera
-        function updateDailyRowCalculations(row) {
-            const inputs = row.querySelectorAll('.daily-input');
-            let cash = 0, card = 0, app = 0, gas = 0, meals = 0, tolls = 0;
-            
-            inputs.forEach(input => {
-                const value = parseFloat(input.value) || 0;
-                switch(input.dataset.col) {
-                    case 'cash': cash = value; break;
-                    case 'card': card = value; break;
-                    case 'app': app = value; break;
-                    case 'gas': gas = value; break;
-                    case 'meals': meals = value; break;
-                    case 'tolls': tolls = value; break;
-                }
-            });
-            
-            const totalIncome = cash + card + app;
-            const totalExpenses = gas + meals + tolls;
-            const net = totalIncome - totalExpenses;
-            
-            row.querySelector('.daily-total-income').textContent = `€${totalIncome.toFixed(2)}`;
-            row.querySelector('.daily-total-expenses').textContent = `€${totalExpenses.toFixed(2)}`;
-            row.querySelector('.daily-net').textContent = `€${net.toFixed(2)}`;
-        }
-
-        // Aggiorna spese fisse
-        function updateFixedExpenses() {
-            const fixedInputs = document.querySelectorAll('.fixed-expense');
-            let total = 0;
-            
-            fixedInputs.forEach(input => {
-                total += parseFloat(input.value) || 0;
-            });
-            
-            document.getElementById('totalFixed').textContent = `€${total.toFixed(2)}`;
-        }
-
-        // Aggiorna riepilogo mensile
-        function updateMonthlySummary() {
-            const dailyInputs = document.querySelectorAll('.daily-input');
-            let totalRides = 0, totalCash = 0, totalCard = 0, totalApp = 0;
-            let totalGas = 0, totalMeals = 0, totalTolls = 0;
-            let workingDays = 0;
-            
-            // Raccogliere dati dalle righe
-            const rows = document.querySelectorAll('#dailyTable tbody tr');
-            rows.forEach(row => {
-                const inputs = row.querySelectorAll('.daily-input');
-                let hasData = false;
-                let rowData = {};
-                
-                inputs.forEach(input => {
-                    const value = parseFloat(input.value) || 0;
-                    if (value > 0) hasData = true;
-                    rowData[input.dataset.col] = value;
-                });
-                
-                if (hasData) {
-                    workingDays++;
-                    totalRides += rowData.rides || 0;
-                    totalCash += rowData.cash || 0;
-                    totalCard += rowData.card || 0;
-                    totalApp += rowData.app || 0;
-                    totalGas += rowData.gas || 0;
-                    totalMeals += rowData.meals || 0;
-                    totalTolls += rowData.tolls || 0;
-                }
-            });
-            
-            const totalIncome = totalCash + totalCard + totalApp;
-            const totalDailyExpenses = totalGas + totalMeals + totalTolls;
-            const fixedExpenses = parseFloat(document.getElementById('totalFixed').textContent.replace('€', '')) || 0;
-            const netProfit = totalIncome - totalDailyExpenses - fixedExpenses;
-            
-            // Aggiorna totali tabella giornaliera
-            document.getElementById('totalRides').textContent = totalRides;
-            document.getElementById('totalCash').textContent = `€${totalCash.toFixed(2)}`;
-            document.getElementById('totalCard').textContent = `€${totalCard.toFixed(2)}`;
-            document.getElementById('totalApp').textContent = `€${totalApp.toFixed(2)}`;
-            document.getElementById('totalIncome').textContent = `€${totalIncome.toFixed(2)}`;
-            document.getElementById('totalGas').textContent = `€${totalGas.toFixed(2)}`;
-            document.getElementById('totalMeals').textContent = `€${totalMeals.toFixed(2)}`;
-            document.getElementById('totalTolls').textContent = `€${totalTolls.toFixed(2)}`;
-            document.getElementById('totalExpenses').textContent = `€${totalDailyExpenses.toFixed(2)}`;
-            document.getElementById('totalNet').textContent = `€${(totalIncome - totalDailyExpenses).toFixed(2)}`;
-            
-            // Aggiorna riepilogo
-            document.getElementById('summaryTotalIncome').textContent = `€${totalIncome.toFixed(2)}`;
-            document.getElementById('summaryCash').textContent = `€${totalCash.toFixed(2)}`;
-            document.getElementById('summaryCard').textContent = `€${totalCard.toFixed(2)}`;
-            document.getElementById('summaryApp').textContent = `€${totalApp.toFixed(2)}`;
-            document.getElementById('summaryDailyExpenses').textContent = `€${totalDailyExpenses.toFixed(2)}`;
-            document.getElementById('summaryFixedExpenses').textContent = `€${fixedExpenses.toFixed(2)}`;
-            document.getElementById('summaryNetProfit').textContent = `€${netProfit.toFixed(2)}`;
-            
-            // Calcola percentuali
-            if (totalIncome > 0) {
-                document.getElementById('summaryCashPerc').textContent = `${((totalCash/totalIncome)*100).toFixed(1)}%`;
-                document.getElementById('summaryCardPerc').textContent = `${((totalCard/totalIncome)*100).toFixed(1)}%`;
-                document.getElementById('summaryAppPerc').textContent = `${((totalApp/totalIncome)*100).toFixed(1)}%`;
-                document.getElementById('summaryDailyPerc').textContent = `${((totalDailyExpenses/totalIncome)*100).toFixed(1)}%`;
-                document.getElementById('summaryFixedPerc').textContent = `${((fixedExpenses/totalIncome)*100).toFixed(1)}%`;
-                document.getElementById('summaryNetPerc').textContent = `${((netProfit/totalIncome)*100).toFixed(1)}%`;
-            }
-            
-            // Statistiche
-            document.getElementById('workingDays').textContent = workingDays;
-            document.getElementById('avgDaily').textContent = workingDays > 0 ? `€${(totalIncome/workingDays).toFixed(2)}` : '€0.00';
-            document.getElementById('totalMonthlyRides').textContent = totalRides;
-            document.getElementById('avgRides').textContent = workingDays > 0 ? Math.round(totalRides/workingDays) : 0;
-            document.getElementById('avgPerRide').textContent = totalRides > 0 ? `€${(totalIncome/totalRides).toFixed(2)}` : '€0.00';
-            
-            updateCharts();
-        }
-
-        // Carica dati di esempio
-        function loadSampleData() {
-            // Spese fisse di esempio
-            document.querySelector('[data-type="mortgage"]').value = '800';
-            document.querySelector('[data-type="radio"]').value = '150';
-            document.querySelector('[data-type="insurance"]').value = '120';
-            document.querySelector('[data-type="inps"]').value = '200';
-            
-            updateFixedExpenses();
-            
-            // Alcuni giorni di esempio
-            const rows = document.querySelectorAll('#dailyTable tbody tr');
-            const sampleData = [
-                { rides: 12, cash: 80, card: 45, app: 25, gas: 35, meals: 15, tolls: 5 },
-                { rides: 15, cash: 95, card: 60, app: 30, gas: 40, meals: 18, tolls: 8 },
-                { rides: 10, cash: 65, card: 35, app: 20, gas: 30, meals: 12, tolls: 0 }
-            ];
-            
-            sampleData.forEach((data, index) => {
-                if (rows[index]) {
-                    const inputs = rows[index].querySelectorAll('.daily-input');
-                    inputs.forEach(input => {
-                        if (data[input.dataset.col]) {
-                            input.value = data[input.dataset.col];
+        async function loadData() {
+            try {
+                // Try to load from cloud backend first
+                if (BACKEND_URL !== 'https://api.jsonbin.io/v3/b/YOUR_BIN_ID') {
+                    const response = await fetch(BACKEND_URL + '/latest', {
+                        headers: {
+                            'X-Master-Key': API_KEY
                         }
                     });
-                    updateDailyRowCalculations(rows[index]);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        dailyData = data.record.dailyData || {};
+                        monthlyExpenses = data.record.monthlyExpenses || monthlyExpenses;
+                        console.log('Data loaded from cloud backend');
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading from backend:', error);
+            }
+            
+            // Fallback to localStorage
+            const savedDaily = localStorage.getItem('taxiDailyData');
+            const savedMonthly = localStorage.getItem('taxiMonthlyExpenses');
+            
+            if (savedDaily) {
+                dailyData = JSON.parse(savedDaily);
+            }
+            if (savedMonthly) {
+                monthlyExpenses = JSON.parse(savedMonthly);
+            }
+        }
+
+        // Form Functions
+        document.getElementById('dataForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const date = document.getElementById('inputDate').value;
+            const corse = parseInt(document.getElementById('inputCorse').value) || 0;
+            const contanti = parseFloat(document.getElementById('inputContanti').value) || 0;
+            const carta = parseFloat(document.getElementById('inputCarta').value) || 0;
+            const app = parseFloat(document.getElementById('inputApp').value) || 0;
+            const benzina = parseFloat(document.getElementById('inputBenzina').value) || 0;
+            const pasti = parseFloat(document.getElementById('inputPasti').value) || 0;
+            const pedaggi = parseFloat(document.getElementById('inputPedaggi').value) || 0;
+            const varie = parseFloat(document.getElementById('inputVarie').value) || 0;
+            
+            dailyData[date] = {
+                corse,
+                contanti,
+                carta,
+                app,
+                benzina,
+                pasti,
+                pedaggi,
+                varie,
+                totaleIncassi: contanti + carta + app,
+                totaleSpese: benzina + pasti + pedaggi + varie,
+                guadagnoNetto: (contanti + carta + app) - (benzina + pasti + pedaggi + varie)
+            };
+            
+            saveData();
+            updateDashboard();
+            clearForm();
+            showMessage('Dati salvati con successo!');
+        });
+
+        function clearForm() {
+            document.getElementById('dataForm').reset();
+            setDefaultDate();
+        }
+
+        function showMessage(msg) {
+            const msgEl = document.getElementById('saveMsg');
+            msgEl.innerHTML = `<div class="success-msg">${msg}</div>`;
+            setTimeout(() => msgEl.innerHTML = '', 3000);
+        }
+
+        function setDefaultDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('inputDate').value = today;
+        }
+
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            document.getElementById('currentDate').textContent = 
+                now.toLocaleDateString('it-IT', options);
+        }
+
+        // Dashboard Functions
+        function updateDashboard() {
+            updateStatistics();
+            updateTable();
+            drawChart();
+        }
+
+        function filterByMonth() {
+            currentFilter = document.getElementById('monthSelect').value;
+            updateDashboard();
+        }
+
+        function getFilteredData() {
+            if (!currentFilter) return dailyData;
+            
+            const filtered = {};
+            Object.keys(dailyData).forEach(date => {
+                if (date.startsWith(currentFilter)) {
+                    filtered[date] = dailyData[date];
                 }
             });
-            
-            updateMonthlySummary();
+            return filtered;
         }
 
-        // Aggiorna grafici (simulazione)
-        function updateCharts() {
-            const charts = document.querySelectorAll('canvas');
-            charts.forEach(canvas => {
-                const ctx = canvas.getContext('2d');
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                // Sfondo
-                ctx.fillStyle = '#f8f9fa';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                // Testo placeholder
-                ctx.fillStyle = '#6c757d';
-                ctx.font = '16px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText('Grafico verrà generato automaticamente', canvas.width/2, canvas.height/2);
-                ctx.fillText('con i dati inseriti', canvas.width/2, canvas.height/2 + 25);
+        function updateStatistics() {
+            let totalIncassi = 0;
+            let totalContanti = 0;
+            let totalCorse = 0;
+            let totalSpese = 0;
+            let guadagnoNetto = 0;
+
+            const filteredData = getFilteredData();
+            Object.values(filteredData).forEach(day => {
+                totalIncassi += day.totaleIncassi;
+                totalContanti += day.contanti;
+                totalCorse += day.corse;
+                totalSpese += day.totaleSpese;
+                guadagnoNetto += day.guadagnoNetto;
             });
+
+            document.getElementById('totalIncassi').textContent = `€${totalIncassi.toFixed(2)}`;
+            document.getElementById('totalContanti').textContent = `€${totalContanti.toFixed(2)}`;
+            document.getElementById('totalCorse').textContent = totalCorse;
+            document.getElementById('totalSpese').textContent = `€${totalSpese.toFixed(2)}`;
+            document.getElementById('guadagnoNetto').textContent = `€${guadagnoNetto.toFixed(2)}`;
         }
 
-        // Esporta in CSV
-        function exportToCSV() {
-            let csv = 'Data,Turno,Corse,Contanti,Carta,App,Tot Incassi,Benzina,Pasti,Pedaggi,Tot Spese,Netto\n';
+        function updateTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            const filteredData = getFilteredData();
+            const sortedDates = Object.keys(filteredData).sort().reverse();
             
-            const rows = document.querySelectorAll('#dailyTable tbody tr');
-            rows.forEach(row => {
-                const inputs = row.querySelectorAll('input, select');
-                const values = [];
-                inputs.forEach(input => {
-                    values.push(input.value || '0');
+            sortedDates.forEach(date => {
+                const day = filteredData[date];
+                const row = tbody.insertRow();
+                
+                const formattedDate = new Date(date + 'T12:00:00').toLocaleDateString('it-IT', {
+                    day: '2-digit',
+                    month: '2-digit'
                 });
                 
-                // Aggiungi i valori calcolati
-                const totalIncome = row.querySelector('.daily-total-income').textContent.replace('€', '');
-                const totalExpenses = row.querySelector('.daily-total-expenses').textContent.replace('€', '');
-                const net = row.querySelector('.daily-net').textContent.replace('€', '');
-                
-                values.push(totalIncome, totalExpenses, net);
-                csv += values.join(',') + '\n';
+                row.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td>${day.corse}</td>
+                    <td>€${day.contanti.toFixed(2)}</td>
+                    <td>€${day.carta.toFixed(2)}</td>
+                    <td>€${day.app.toFixed(2)}</td>
+                    <td><strong>€${day.totaleIncassi.toFixed(2)}</strong></td>
+                    <td>€${day.totaleSpese.toFixed(2)}</td>
+                    <td>€${(day.varie || 0).toFixed(2)}</td>
+                    <td><strong>€${day.guadagnoNetto.toFixed(2)}</strong></td>
+                `;
             });
-            
-            // Download
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.setAttribute('hidden', '');
-            a.setAttribute('href', url);
-            a.setAttribute('download', 'amministrazione_taxi.csv');
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
         }
 
-        // Stampa report
-        function printReport() {
-            window.print();
+        function drawChart() {
+            const canvas = document.getElementById('incassiChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const filteredData = getFilteredData();
+            if (Object.keys(filteredData).length === 0) {
+                ctx.fillStyle = '#666';
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('Inserisci dei dati per visualizzare il grafico', canvas.width/2, canvas.height/2);
+                return;
+            }
+            
+            const sortedDates = Object.keys(filteredData).sort();
+            const maxIncasso = Math.max(...Object.values(filteredData).map(d => d.totaleIncassi));
+            
+            const barWidth = canvas.width / sortedDates.length - 10;
+            const maxBarHeight = canvas.height - 40;
+            
+            sortedDates.forEach((date, index) => {
+                const day = filteredData[date];
+                const barHeight = (day.totaleIncassi / maxIncasso) * maxBarHeight;
+                const x = index * (barWidth + 10) + 5;
+                const y = canvas.height - barHeight - 20;
+                
+                // Draw bar
+                ctx.fillStyle = '#ffc107';
+                ctx.fillRect(x, y, barWidth, barHeight);
+                
+                // Draw date label
+                ctx.fillStyle = '#333';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                const dayLabel = new Date(date + 'T12:00:00').getDate();
+                ctx.fillText(dayLabel, x + barWidth/2, canvas.height - 5);
+                
+                // Draw value
+                ctx.fillStyle = '#333';
+                ctx.font = '8px Arial';
+                ctx.fillText(`€${day.totaleIncassi.toFixed(0)}`, x + barWidth/2, y - 5);
+            });
         }
+
+        // Excel Export Function
+        function exportToExcel() {
+            const filteredData = getFilteredData();
+            const monthName = currentFilter ? 
+                document.getElementById('monthSelect').selectedOptions[0].text : 
+                'Tutti_i_dati';
+            
+            // Prepare data for Excel
+            const excelData = [];
+            
+            // Add header
+            excelData.push([
+                'Data', 'Corse', 'Contanti €', 'Carta €', 'App €', 
+                'Totale Incassi €', 'Benzina €', 'Pasti €', 'Pedaggi €', 
+                'Varie €', 'Totale Spese €', 'Guadagno Netto €'
+            ]);
+            
+            // Add data rows
+            const sortedDates = Object.keys(filteredData).sort();
+            sortedDates.forEach(date => {
+                const day = filteredData[date];
+                excelData.push([
+                    new Date(date + 'T12:00:00').toLocaleDateString('it-IT'),
+                    day.corse,
+                    day.contanti,
+                    day.carta,
+                    day.app,
+                    day.totaleIncassi,
+                    day.benzina,
+                    day.pasti,
+                    day.pedaggi,
+                    day.varie || 0,
+                    day.totaleSpese,
+                    day.guadagnoNetto
+                ]);
+            });
+            
+            // Add summary
+            const totals = excelData.slice(1).reduce((acc, row) => {
+                return {
+                    corse: acc.corse + row[1],
+                    contanti: acc.contanti + row[2],
+                    carta: acc.carta + row[3],
+                    app: acc.app + row[4],
+                    totaleIncassi: acc.totaleIncassi + row[5],
+                    benzina: acc.benzina + row[6],
+                    pasti: acc.pasti + row[7],
+                    pedaggi: acc.pedaggi + row[8],
+                    varie: acc.varie + row[9],
+                    totaleSpese: acc.totaleSpese + row[10],
+                    guadagnoNetto: acc.guadagnoNetto + row[11]
+                };
+            }, {
+                corse: 0, contanti: 0, carta: 0, app: 0, totaleIncassi: 0,
+                benzina: 0, pasti: 0, pedaggi: 0, varie: 0, totaleSpese: 0, guadagnoNetto: 0
+            });
+            
+            excelData.push([]);
+            excelData.push(['TOTALI', totals.corse, totals.contanti, totals.carta, totals.app,
+                          totals.totaleIncassi, totals.benzina, totals.pasti, totals.pedaggi, 
+                          totals.varie, totals.totaleSpese, totals.guadagnoNetto]);
+            
+            // Add monthly expenses
+            excelData.push([]);
+            excelData.push(['SPESE MENSILI FISSE']);
+            Object.entries(monthlyExpenses).forEach(([label, value]) => {
+                excelData.push([label, '', '', '', '', '', '', '', '', '', value, '']);
+            });
+            
+            // Create workbook
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(excelData);
+            
+            // Style the header row
+            const range = XLSX.utils.decode_range(ws['!ref']);
+            for (let col = range.s.c; col <= range.e.c; col++) {
+                const cellAddress = XLSX.utils.encode_cell({r: 0, c: col});
+                if (!ws[cellAddress]) continue;
+                ws[cellAddress].s = {
+                    font: { bold: true },
+                    fill: { fgColor: { rgb: "FFC107" } }
+                };
+            }
+            
+            XLSX.utils.book_append_sheet(wb, ws, "Dati Taxi");
+            
+            // Download file
+            const fileName = `Amministrazione_Taxi_${monthName}_${new Date().toISOString().split('T')[0]}.xlsx`;
+            XLSX.writeFile(wb, fileName);
+        }
+
+        // Auto-save every 30 seconds
+        setInterval(saveData, 30000);
     </script>
 </body>
 </html>
